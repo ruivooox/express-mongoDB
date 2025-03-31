@@ -53,5 +53,16 @@ class LivroController {
       res.status(500).json({ message: $`falha na exclusão` });
     }
   }
+  static async listarLivrosEditora(req, res) {
+    const editora = req.query.editora;
+    try {
+      const livroPorEditora = await livro.find({ editora: editora });
+      res.status(200).json(livroPorEditora);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: `${error.message}- falha na requisição` });
+    }
+  }
 }
 export default LivroController;
