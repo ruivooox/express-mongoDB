@@ -24,7 +24,7 @@ class AutorController {
   }
   static async cadastrarAutor(req, res) {
     try {
-      const criarAutor = await autor.create(req.body);
+      await autor.create(req.body);
       res.status(200).json("Autor criado com sucesso!");
     } catch (error) {
       res.status(500).json("Falha ao criar usuário!");
