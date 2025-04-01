@@ -19,7 +19,7 @@ class LivroController {
             const livroEncontrado = await livro.findById(id);
 
             if (!livroEncontrado) {
-                res.status(400).send({
+                res.status(404).send({
                     message: "Id do livro não encontrado!",
                 });
                 return;
@@ -28,7 +28,7 @@ class LivroController {
             res.status(200).json(livroEncontrado);
         } catch (error) {
             if (error instanceof mongoose.Error.CastError) {
-                res.status(404).send({
+                res.status(400).send({
                     message: "Dados fornecidos estão incorretos",
                 });
             }
@@ -56,7 +56,7 @@ class LivroController {
             const atualizaLivro = await livro.findByIdAndUpdate(id, req.body);
 
             if (!atualizaLivro) {
-                res.status(400).send({
+                res.status(404).send({
                     message: "Id do livro não encontrado!",
                 });
                 return;
@@ -65,7 +65,7 @@ class LivroController {
             res.status(200).json({ message: "livro atualizado" });
         } catch (error) {
             if (error instanceof mongoose.Error.CastError) {
-                res.status(404).send({
+                res.status(400).send({
                     message: "Dados fornecidos estão incorretos",
                 });
             }
@@ -81,7 +81,7 @@ class LivroController {
             const deletaLivro = await livro.findByIdAndDelete(id);
 
             if (!deletaLivro) {
-                res.status(400).send({
+                res.status(404).send({
                     message: "Id do livro não encontrado!",
                 });
                 return;
@@ -90,7 +90,7 @@ class LivroController {
             res.status(200).json({ message: "livro excluído" });
         } catch (error) {
             if (error instanceof mongoose.Error.CastError) {
-                res.status(404).send({
+                res.status(400).send({
                     message: "Dados fornecidos estão incorretos!",
                 });
             }
