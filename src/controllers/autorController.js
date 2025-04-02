@@ -1,18 +1,15 @@
-import mongoose from "mongoose";
 import { autor } from "../models/Autor.js";
 
 class AutorController {
-    static listarAutores = async (req, res) => {
+    static listarAutores = async (req, res, next) => {
         try {
             const listaAutor = await autor.find({});
             res.status(200).json(listaAutor);
         } catch (error) {
-            res.status(500).json({
-                message: `${error.message}- Falha na requisição!`,
-            });
+            next(error);
         }
     };
-    static listaAutorById = async (req, res) => {
+    static listaAutorById = async (req, res, next) => {
         try {
             const id = req.params.id;
             const listaById = await autor.findById(id);
@@ -23,23 +20,18 @@ class AutorController {
             }
             res.status(200).json(listaById);
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Os Dados fornecidos estão incorretos",
-                });
-            }
-            res.status(500).json({ message: "Falha na requisição!" });
+            next(error);
         }
     };
-    static cadastrarAutor = async (req, res) => {
+    static cadastrarAutor = async (req, res, next) => {
         try {
             await autor.create(req.body);
             res.status(200).json("Autor criado com sucesso!");
         } catch (error) {
-            res.status(500).json("Falha ao criar usuário!");
+            next(error);
         }
     };
-    static atualizarAutor = async (req, res) => {
+    static atualizarAutor = async (req, res, next) => {
         try {
             const id = req.params.id;
             const atualizaAutor = await autor.findByIdAndUpdate(id, req.body);
@@ -51,17 +43,10 @@ class AutorController {
             }
             res.status(200).json("Autor atualizado com sucesso!");
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Dados fornecidos estão incorretos",
-                });
-            }
-            res.status(500).json({
-                message: `${error.message}- Falha na requisição!`,
-            });
+            next(error);
         }
     };
-    static deletarAutor = async (req, res) => {
+    static deletarAutor = async (req, res, next) => {
         try {
             const id = req.params.id;
             const deletarAutor = await autor.findByIdAndDelete(id);
@@ -72,14 +57,7 @@ class AutorController {
             }
             res.status(200).json("Autor deletado com sucesso!");
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Dados fornecidos estão incorretos",
-                });
-            }
-            res.status(500).json({
-                message: `${error.message}- Falha ao deletar!`,
-            });
+            next(error);
         }
     };
 }

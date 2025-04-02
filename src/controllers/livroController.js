@@ -7,13 +7,11 @@ class LivroController {
             const listaLivros = await livro.find({});
             res.status(200).json(listaLivros);
         } catch (error) {
-            res.status(500).json({
-                message: `${error.message}- falha na requisição`,
-            });
+            next(error);
         }
     }
 
-    static async listarLivroPorID(req, res) {
+    static async listarLivroPorID(req, res, next) {
         try {
             const id = req.params.id;
             const livroEncontrado = await livro.findById(id);
@@ -27,14 +25,7 @@ class LivroController {
 
             res.status(200).json(livroEncontrado);
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Dados fornecidos estão incorretos",
-                });
-            }
-            res.status(500).json({
-                message: `${error.message}- falha na requisição`,
-            });
+            next(error);
         }
     }
     static async cadastrarLivro(req, res) {
@@ -45,12 +36,10 @@ class LivroController {
                 livro: novoLivro,
             });
         } catch (error) {
-            res.status(500).json({
-                message: `${error.message}-falha ao cadastrar livro`,
-            });
+            next(error);
         }
     }
-    static async atualizarLivro(req, res) {
+    static async atualizarLivro(req, res, next) {
         try {
             const id = req.params.id;
             const atualizaLivro = await livro.findByIdAndUpdate(id, req.body);
@@ -64,18 +53,10 @@ class LivroController {
 
             res.status(200).json({ message: "livro atualizado" });
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Dados fornecidos estão incorretos",
-                });
-            }
-
-            res.status(500).json({
-                message: `${error.message}- falha na atualização`,
-            });
+            next(error);
         }
     }
-    static async deletarLivro(req, res) {
+    static async deletarLivro(req, res, next) {
         try {
             const id = req.params.id;
             const deletaLivro = await livro.findByIdAndDelete(id);
@@ -89,13 +70,7 @@ class LivroController {
 
             res.status(200).json({ message: "livro excluído" });
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError) {
-                res.status(400).send({
-                    message: "Dados fornecidos estão incorretos!",
-                });
-            }
-
-            res.status(500).json({ message: $`falha na exclusão` });
+            next(error);
         }
     }
     static async listarLivrosEditora(req, res) {
@@ -104,9 +79,7 @@ class LivroController {
             const livroPorEditora = await livro.find({ editora: editora });
             res.status(200).json(livroPorEditora);
         } catch (error) {
-            res.status(500).json({
-                message: `${error.message}- falha na requisição`,
-            });
+            next(error);
         }
     }
 }
