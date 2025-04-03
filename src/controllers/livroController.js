@@ -1,8 +1,7 @@
-import mongoose from "mongoose";
 import livro from "../models/Livro.js";
 
 class LivroController {
-    static async listarLivros(req, res) {
+    static async listarLivros(req, res, next) {
         try {
             const listaLivros = await livro.find({});
             res.status(200).json(listaLivros);
@@ -28,7 +27,7 @@ class LivroController {
             next(error);
         }
     }
-    static async cadastrarLivro(req, res) {
+    static async cadastrarLivro(req, res, next) {
         try {
             const novoLivro = await livro.create(req.body);
             res.status(201).json({
@@ -73,7 +72,7 @@ class LivroController {
             next(error);
         }
     }
-    static async listarLivrosEditora(req, res) {
+    static async listarLivrosEditora(req, res, next) {
         const editora = req.query.editora;
         try {
             const livroPorEditora = await livro.find({ editora: editora });
