@@ -13,7 +13,10 @@ conexao.once("open", () => {
     console.log("conexão feita com sucesso");
 });
 const app = express();
+
 routes(app);
+
 app.use(manipulador404);
+
 app.use(manipuladorDeErros);
 export default app;

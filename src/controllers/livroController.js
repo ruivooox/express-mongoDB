@@ -1,3 +1,4 @@
+import NaoEncontrado from "../erros/Naoencontrado.js";
 import livro from "../models/Livro.js";
 
 class LivroController {
@@ -16,9 +17,7 @@ class LivroController {
             const livroEncontrado = await livro.findById(id);
 
             if (!livroEncontrado) {
-                res.status(404).send({
-                    message: "Id do livro não encontrado!",
-                });
+                next(new NaoEncontrado("Id do livro não encontrado!"));
                 return;
             }
 
@@ -44,9 +43,7 @@ class LivroController {
             const atualizaLivro = await livro.findByIdAndUpdate(id, req.body);
 
             if (!atualizaLivro) {
-                res.status(404).send({
-                    message: "Id do livro não encontrado!",
-                });
+                next(new NaoEncontrado("Id do livro não encontrado!"));
                 return;
             }
 
@@ -61,9 +58,7 @@ class LivroController {
             const deletaLivro = await livro.findByIdAndDelete(id);
 
             if (!deletaLivro) {
-                res.status(404).send({
-                    message: "Id do livro não encontrado!",
-                });
+                next(new NaoEncontrado("Id do livro não encontrado!"));
                 return;
             }
 
