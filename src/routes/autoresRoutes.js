@@ -8,4 +8,5 @@ rotas.get("/autores/:id", AutorController.listaAutorById);
 rotas.post("/autores", AutorController.cadastrarAutor);
 rotas.put("/autores/:id", AutorController.atualizarAutor);
 rotas.delete("/autores/:id", AutorController.deletarAutor);
+
 export default rotas;
