@@ -4,8 +4,9 @@ import livro from "../models/Livro.js";
 class LivroController {
     static async listarLivros(req, res, next) {
         try {
-            const listaLivros = await livro.find({});
-            res.status(200).json(listaLivros);
+            const buscaLivros = livro.find({});
+            req.resultado = buscaLivros;
+            next();
         } catch (error) {
             next(error);
         }
@@ -67,14 +68,17 @@ class LivroController {
             next(error);
         }
     }
-    static async listarLivrosEditora(req, res, next) {
-        const editora = req.query.editora;
+    static listarLivrosEditora = async (req, res, next) => {
         try {
-            const livroPorEditora = await livro.find({ editora: editora });
-            res.status(200).json(livroPorEditora);
+            const { editora, titulo } = req.query;
+
+            const busca = {};
+            if (editora) busca.editora = editora;
+            if (titulo) busca.titulo = titulo;
+            res.status(200).json(busca);
         } catch (error) {
             next(error);
         }
-    }
+    };
 }
 export default LivroController;

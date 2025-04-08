@@ -19,14 +19,14 @@ class FilmesController {
                 next(new NaoEncontrado("Página não encontrada", 404));
                 return;
             }
-            res.status(200).send({ message: "" });
+            res.status(200).send(buscaFilmeId);
         } catch (error) {
             next(error);
         }
     };
     static cadastrarFilme = async (req, res, next) => {
         try {
-            const cadastraFIlme = await filme.create(req.body);
+            await filme.create(req.body);
             res.status(201).send({ message: "FIlme adicionado com sucesso!" });
         } catch (error) {
             next(error);

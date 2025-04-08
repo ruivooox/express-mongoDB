@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const livroSchema = new mongoose.Schema(
     {
-        id: { type: mongoose.Schema.Types.ObjectId },
+        id: { type: String },
         titulo: {
             type: String,
             required: [true, "O título é obrigatório"],
         },
         autor: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: "autor",
             required: [true, "Autor é obrigatório"],
         },
